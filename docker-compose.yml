@@ -10,6 +10,8 @@ services:
       BASE_URL: 'http://nginx'
     ports: 
       - 3000:3000
+    ## コンテナが落ちるため
+    tty: true
     networks:
       - sample-spa
 
