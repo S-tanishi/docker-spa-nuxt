@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  api:
+    ui:
+      build: ./docker/ui 
+      volumes: 
+        - 
+        - ./frontend:/work/frontend
+      environment: 
+        PORT: '3000'
+        HOST: '0.0.0.0'
+        BASE_URL: 'http://nginx'
+      port:
+        - 3000:3000
+      networks:
+        - sample-spa
+
+networks:
+  sample-spa:
+    external: true
+    
