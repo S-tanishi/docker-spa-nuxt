@@ -3,7 +3,7 @@ services:
   ui:
     build: ./docker/ui 
     volumes: 
-      - ./frontend:/work/frontend
+      - .:/frontend
     environment: 
       PORT: '3000'
       HOST: '0.0.0.0'
