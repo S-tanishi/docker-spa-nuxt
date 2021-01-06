@@ -12,6 +12,7 @@ services:
       - 3000:3000
     ## コンテナが落ちるため
     tty: true
+    restart: always
     networks:
       - sample-spa
 
