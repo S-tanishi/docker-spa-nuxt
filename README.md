@@ -1,12 +1,20 @@
-# docker-spa-nuxt
+# frontend
+
+## Build Setup
+
+```bash
+# install dependencies
+$ yarn install
+
+# serve with hot reload at localhost:3000
+$ yarn dev
+
+# build for production and launch server
+$ yarn build
+$ yarn start
+
+# generate static project
+$ yarn generate
 ```
-$ docker-compose exec ui yarn create nuxt-app frontend
 
-# 認証・APIとの通信に必要なライブラリの追加
-docker-compose exec ui yarn add @nuxtjs/auth @nuxtjs/axios @nuxtjs/proxy
-
-SASSで開発できるようにライブラリを追加
-docker-compose exec ui yarn add --dev sass sass-loader fibers
-
-$ docker-compose exec ui yarn dev 
-```
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
