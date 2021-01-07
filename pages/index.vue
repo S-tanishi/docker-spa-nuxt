@@ -1,73 +1,65 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        frontend
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <div class="animated fadeIn">
+    <b-row>
+      <b-col md="12">
+        <b-button variant="primary" @click="displayUsers">User表示</b-button>
+      </b-col>
+    </b-row>
+    <p class="my-3 h4 font-weight-bold text-primary">{{ count }}件</p>
+    <div v-if="isLoading" class="text-center">
+      <b-spinner variant="primary" label="Spinning"></b-spinner>
+    </div> 
+    <div v-if="items.length !== 0">
+      <b-col lg="12">
+        <b-card v-for="(item, index) in items" class="mb-4">
+          <div slot="header" class="font-weight-bold">
+            User{{ index + 1 }}
+          </div>
+          <b-card-body class="py-0 px-2">
+            <p class="my-3"><span class="font-weight-bold">ID: </span>{{ item.id }}</p>
+            <p class="my-3"><span class="font-weight-bold">物件名: </span>{{ item.name }}</p>
+          </b-card-body>
+        </b-card>
+      </b-col>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      header: {
+        title: 'サンプルページ',
+      },
+      count: 0,
+      items: [],
+      isLoading: false,
+    }
+  },
+
+  mounted() {
+    this.setHeader();
+  },
+
+  methods: {
+    setHeader() {
+      this.$nuxt.$emit('setHeader', this.header);
+    },
+
+    async displayUsers() {
+      this.isLoading = true;
+
+      try {
+        const res = await this.$axios.get('/api/admin/users');
+
+        this.count = res.data.length;
+        this.items = res.data;
+      } catch (e) {
+        console.log(e);
+      }
+      this.isLoading = false;
+    },
+  }
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
