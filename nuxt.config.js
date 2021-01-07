@@ -17,6 +17,8 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '~/node_modules/bootstrap-vue/dist/bootstrap-vue.css',
+    { src: '~/assets/scss/app.scss', lang: 'scss'}
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -33,10 +35,50 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/bootstrap
+    '@nuxtjs/auth',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     'bootstrap-vue/nuxt',
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
+
+  axios: {
+    proxy: true,
+  },
+
+  proxy: {
+    '/api/': {
+      target: process.env.BASE_URL,
+    }
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: false,
+      home: '/'
+    },
+
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/admin/auth/login', method: 'post', propertyName: false},
+          user: { url: '/api/admin/user', method: 'get', prppertyName: false},
+          logout: false
+        },
+        tokenRequired: false,
+        tokenType: false,
+      }
+    },
+
+    localStrage: false,
+  },
+
+  router: {
+    middleware: ['auth']
+  },
 }
